@@ -79,3 +79,16 @@ html, body {
 #target {
   width: 345px;
 }
+
+#ad {
+    height: 100%;
+    width: 450px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    background: transparent;
+}
+
+#adImg {
+    width: 450px;
+}
