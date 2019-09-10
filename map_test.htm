@@ -1,0 +1,27 @@
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+	<div id="map"></div>
+<!-- Replace the value of the key parameter with your own API key. -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAIuyoF5P3nu1Ju6BgMM-B0148e0HlMP9w&callback=initMap" async defer></script>
+
+</body>
+</html>
+
+<script>
+var map;
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: -0.397, lng: 150.644},
+    zoom: 8
+  });
+}
+</script>
+
+
+
+
+
