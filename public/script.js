@@ -6,14 +6,19 @@
 // parameter when you first load the API. For example:
 // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
-var map;
+var map, directionsService, directionsRenderer, cur, dest;
 
 function initMap() {
+
+
+  directionsService = new google.maps.DirectionsService();
+  directionsRenderer = new google.maps.DirectionsRenderer();
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 37.487930899999995, lng: -122.22534259999999},
     zoom: 18,
     mapTypeId: 'roadmap'
   });
+  directionsRenderer.setMap(map);
 
   initSearch();
 
@@ -33,7 +38,6 @@ function initSearch() {
     searchBox.setBounds(map.getBounds());
   });
 
-  var dest;
   // Listen for the event fired when the user selects a prediction and retrieve
   // more details for that place.
   searchBox.addListener('places_changed', function() {
@@ -74,23 +78,36 @@ function initSearch() {
       }
     });
     map.fitBounds(bounds);
-  console.log(dest);
-  dest.lat = dest.position.lat();
-  dest.long = dest.position.lng();
+  calculateAndDisplayRoute(directionsService, directionsRenderer);
   });
 }
 
 function initCurrentLocation() {
   navigator.geolocation.getCurrentPosition(function(position) {
-    var pos = {
+    cur = {
       lat: position.coords.latitude,
       lng: position.coords.longitude
     };
 
-    map.setCenter(pos);
+    map.setCenter(cur);
   });
-
 
   var GeoMarker = new GeolocationMarker(map);
 }
 
+function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+  initCurrentLocation();
+  directionsService.route(
+      {
+        origin: new google.maps.LatLng(cur.lat, cur.lng),
+        destination: dest.position,
+        travelMode: 'DRIVING'
+      },
+      function(response, status) {
+        if (status === 'OK') {
+          directionsRenderer.setDirections(response);
+        } else {
+          window.alert('Directions request failed due to ' + status);
+        }
+      });
+}
