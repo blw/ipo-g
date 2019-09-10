@@ -1,27 +1,17 @@
+<!DOCTYPE html>
 <html>
-<head>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Places Search Box</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
-</head>
 
-<body>
-	<div id="map"></div>
-<!-- Replace the value of the key parameter with your own API key. -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAIuyoF5P3nu1Ju6BgMM-B0148e0HlMP9w&callback=initMap" async defer></script>
-
-</body>
-</html>
-
-<script>
-var map;
-function initMap() {
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 37.487930899999995, lng: -122.22534259999999},
-    zoom: 15
-  });
-}
-</script>
-
-
-
-
-
+  </head>
+  <body>
+    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+    <div id="map"></div>
+    <script src="script.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAIuyoF5P3nu1Ju6BgMM-B0148e0HlMP9w&libraries=places&callback=initMap"
+         async defer></script>
+  </body>
+</html>s
