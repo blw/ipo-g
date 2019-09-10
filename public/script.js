@@ -6,12 +6,22 @@
 // parameter when you first load the API. For example:
 // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
+var map;
+
 function initMap() {
-  var map = new google.maps.Map(document.getElementById('map'), {
+  map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 37.487930899999995, lng: -122.22534259999999},
-    zoom: 15,
+    zoom: 18,
     mapTypeId: 'roadmap'
   });
+
+  initSearch();
+
+  google.maps.event.addDomListener(window, 'load', initCurrentLocation);
+
+}
+
+function initSearch() {
 
   // Create the search box and link it to the UI element.
   var input = document.getElementById('pac-input');
@@ -69,3 +79,18 @@ function initMap() {
   dest.long = dest.position.lng();
   });
 }
+
+function initCurrentLocation() {
+  navigator.geolocation.getCurrentPosition(function(position) {
+    var pos = {
+      lat: position.coords.latitude,
+      lng: position.coords.longitude
+    };
+
+    map.setCenter(pos);
+  });
+
+
+  var GeoMarker = new GeolocationMarker(map);
+}
+
