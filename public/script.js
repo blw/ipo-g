@@ -29,7 +29,8 @@ function initMap() {
        path: svg,
        strokeColor : 'red',
        strokeWeight : 1.5,
-       scale: 0.7
+       scale: 0.7,
+       anchor: new google.maps.Point(13, 13)
      }
   });
 
@@ -141,7 +142,9 @@ function watchLocation() {
       strokeColor : 'red',
       strokeWeight : 1.5,
       scale: 0.7,
-      rotation: response.heading
+      rotation: response.heading,
+      anchor: new google.maps.Point(13, 13)
+
     })
 
   });
