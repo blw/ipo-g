@@ -1,4 +1,5 @@
 var currentAd = {};
+var displayedCreative = "";
 
 
 class creative {
@@ -32,6 +33,7 @@ class adMetadata {
 		this._long = long;
 		this._creative = creative;
 		this._action = action;
+		this._distance = distance;
 	}
 	
 	get id() {
@@ -85,7 +87,7 @@ var adMetaDataStore = [];
 
 adMetaDataStore[0] = new adMetadata(1, 37.486672, -122.228637, new creative("philz_1.jpg", "philz_2.jpg"), "navigate");  //philz
 
-adMetaDataStore[1] = new adMetadata(2, 37.486330, -122.2299407, new creative("dummy"), "navigate");  //starbucks
+//adMetaDataStore[1] = new adMetadata(2, 37.486330, -122.2299407, new creative("dummy"), "navigate");  //starbucks
 
 var calcDistance = function (checkPoint, centerPoint) {
 	var ky = 40000 / 360;
@@ -99,34 +101,43 @@ var calcDistance = function (checkPoint, centerPoint) {
 
 var returnAd = function(locationMetadata) {
 	var creative = "";
-	var distanceInMiles = 0.1;
-	var adMetadata = {};
+	var distanceInMiles = 0.4;
+	var nextAd = {};
 	for (var i = 0; i<adMetaDataStore.length; i++) {
 		var distance = calcDistance(locationMetadata, adMetaDataStore[i]);
 		if (distance < distanceInMiles) {
-			adMetadata = adMetaDataStore[i];
+			nextAd = adMetaDataStore[i];
 			distanceInMiles = distance;
-			adMetadata.distance = distance;
+			nextAd.distance = distance;
 		}
 	}
 	
-	if (Object.keys(adMetadata).length !=0 && Object.keys(currentAd).length !=0  && currentAd.id === adMetadata.id) {
-		if (adMetadata.distance > currentAd.distance && adMetadata.creative.headingOut != null) {
-			if (Object.keys(adMetadata).length != 0) {
-				creative = adMetadata.creative.headingOut;
+	if (Object.keys(nextAd).length !=0 && Object.keys(currentAd).length !=0  && currentAd.id === nextAd.id) {
+		if (nextAd.distance > currentAd.distance && nextAd.creative.headingOut != null) {
+			if (Object.keys(nextAd).length != 0) {
+				creative = nextAd.creative.headingOut;
 			}
-		} else {
-			if (Object.keys(adMetadata).length != 0) {
-				creative = adMetadata.creative.headingIn;
+		} else if (nextAd.distance ==  currentAd.distance && nextAd.creative.headingOut != null && displayedCreative === nextAd.creative.headingOut) {
+			creative = displayedCreative;
+		}
+		else {
+			if (Object.keys(nextAd).length != 0) {
+				creative = nextAd.creative.headingIn;
 			}
 		}
 	} else {
-		if (Object.keys(adMetadata).length != 0) {
-			creative = adMetadata.creative.headingIn;
+		if (Object.keys(nextAd).length != 0) {
+			creative = nextAd.creative.headingIn;
 		}
 		
 	}
-	currentAd = Object.assign({}, adMetadata);
+	if (Object.keys(nextAd).length !=0) {
+		currentAd = new adMetadata(nextAd.id, nextAd.lat, nextAd.long, nextAd.creative, "navigate", nextAd.distance);
+	} else {
+		currentAd = {};
+	}
+	
+	displayedCreative = creative;
 	return creative;
 	
 }
