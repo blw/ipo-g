@@ -33,7 +33,7 @@ function initMap() {
     map // your google.maps.Map object
   });
   google.maps.event.addDomListener(window, 'load', function() {
-    setInterval(watchLocation, 200);
+    setInterval(watchLocation, 500);
   });
 }
 
