@@ -6,7 +6,7 @@
 // parameter when you first load the API. For example:
 // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
-var map, directionsService, directionsRenderer, cur, dest;
+var map, directionsService, directionsRenderer, cur, dest, circle;
 
 function initMap() {
 
@@ -22,9 +22,19 @@ function initMap() {
 
   initSearch();
 
-  google.maps.event.addDomListener(window, 'load', watchLocation);
-
-
+  currentPositionMarker = new google.maps.Marker({
+    clickable: false,
+    icon: new google.maps.MarkerImage('//static.thenounproject.com/png/1023856-200.png',
+                                                    new google.maps.Size(200,200),
+                                                    new google.maps.Point(0,0),
+                                                    new google.maps.Point(100,100)),
+    shadow: null,
+    zIndex: 999,
+    map // your google.maps.Map object
+  });
+  google.maps.event.addDomListener(window, 'load', function() {
+    setInterval(watchLocation, 1000)
+  });
 }
 
 function initSearch() {
@@ -91,9 +101,11 @@ function watchLocation() {
     };
 
     map.setCenter(cur);
+    currentPositionMarker.setPosition(new google.maps.LatLng(cur.lat, cur.lng))
+
   });
 
-  var GeoMarker = new GeolocationMarker(map, null, null, {visible: false});
+  // var GeoMarker = new GeolocationMarker(map, null, null, {visible: false});
 }
 
 function calculateAndDisplayRoute(directionsService, directionsRenderer) {
