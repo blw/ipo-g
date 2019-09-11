@@ -35,7 +35,7 @@ function initMap() {
 
   currentPositionMarker2 = new google.maps.Marker({
     clickable: false,
-    icon: new google.maps.MarkerImage('icon.png',
+    icon: new google.maps.MarkerImage('qr.png',
           new google.maps.Size(50,28),
           new google.maps.Point(0,0),
           new google.maps.Point(25,14)),
@@ -145,10 +145,11 @@ function watchLocation() {
      
     }
     // map.setCenter(cur);
-    currentPositionMarker.setPosition(new google.maps.LatLng(cur.lat, cur.lng))
+    currentPositionMarker.setPosition(new google.maps.LatLng(cur.lat, cur.lng));
 
 
     $.get('getCarMetaData', function(data) {
+      map.setCenter({lat: data.response.latitude, long: data.response.longitude});
       currentPositionMarker2.setPosition(new google.maps.LatLng(data.response.latitude, data.response.longitude));
     });
 
