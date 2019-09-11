@@ -108,12 +108,20 @@ function watchLocation() {
       long: position.coords.longitude
     }
     previousAds = adsToShow;
-    adsToShow = returnAd(adsCur);
+    let ads = returnAd(adsCur);
+    adsToShow = ads.name;
     console.log(previousAds);
     console.log(adsToShow);
     if (adsToShow != '') {
       $('#adImg').attr('src', adsToShow);
+      $('#adImg').unbind();
+      $('#adImg').click(() => handleClick(ads));
     }
+
+    if(adsToShow != previousAds) {
+      $('#adImg').next().remove();
+    }
+
     if ((previousAds == '' && adsToShow != '') || (previousAds != '' && adsToShow == '')) {
         
         $('#ad').toggle("slide", {direction:'right'});
@@ -129,8 +137,37 @@ function watchLocation() {
     currentPositionMarker.setPosition(new google.maps.LatLng(cur.lat, cur.lng))
 
   });
-
   // var GeoMarker = new GeolocationMarker(map, null, null, {visible: false});
+}
+
+function handleClick(ads) {
+
+  switch(ads.action) {
+
+    case 'navigate':
+      var icon = {
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25)
+      };
+
+      // Create a marker for each place.
+      dest = new google.maps.Marker({
+        map: map,
+        icon: icon,
+        position: new google.maps.LatLng(ads.lat, ads.long)
+      });
+      calculateAndDisplayRoute(directionsService, directionsRenderer);
+      $('#ad').toggle("slide", {direction:'right'});
+      break;
+    case 'QR':
+      //adsToShow = 'qr.png';
+      $('#adImg').after($('<img src="qr.png"/>'));
+      break;
+    case 'reservation':
+      break;
+  }
 }
 
 function calculateAndDisplayRoute(directionsService, directionsRenderer) {

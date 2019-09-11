@@ -85,8 +85,11 @@ class adMetadata {
 var currentLoc = { lat: 37.48809, long: -122.2251767 };
 var adMetaDataStore = [];
 
-adMetaDataStore[0] = new adMetadata(1, 37.486672, -122.228637, new creative("philz_1.jpg", "philz_2.jpg"), "navigate");  //philz
+adMetaDataStore[0] = new adMetadata(1, 37.486672, -122.228637, new creative("philz_1.jpg", "philz_2.jpg"), "QR");  //philz
 adMetaDataStore[1] = new adMetadata(2, 37.486343, -122.229942, new creative("starbucks.jpg"), "navigate");
+adMetaDataStore[2] = new adMetadata(3, 37.490593, -122.227851, new creative("innout.jpeg"), "navigate");
+adMetaDataStore[3] = new adMetadata(4, 37.487876, -122.225290, new creative("amobee.jpg"), "navigate");
+
 
 var calcDistance = function (checkPoint, centerPoint) {
 	var ky = 40000 / 360;
@@ -131,12 +134,16 @@ var returnAd = function(locationMetadata) {
 		
 	}
 	if (Object.keys(nextAd).length !=0) {
-		currentAd = new adMetadata(nextAd.id, nextAd.lat, nextAd.long, nextAd.creative, "navigate", nextAd.distance);
+		currentAd = new adMetadata(nextAd.id, nextAd.lat, nextAd.long, nextAd.creative, nextAd.action, nextAd.distance);
 	} else {
 		currentAd = {};
 	}
 	
 	displayedCreative = creative;
-	return creative;
-	
+	return {
+		name: creative,
+		action: currentAd.action,
+		lat: currentAd.lat,
+		long: currentAd.long
+	};
 }
