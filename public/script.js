@@ -32,8 +32,19 @@ function initMap() {
     zIndex: 999,
     map // your google.maps.Map object
   });
+
+  currentPositionMarker2 = new google.maps.Marker({
+    clickable: false,
+    icon: new google.maps.MarkerImage('icon.png',
+          new google.maps.Size(50,28),
+          new google.maps.Point(0,0),
+          new google.maps.Point(25,14)),
+    shadow: null,
+    zIndex: 999,
+    map // your google.maps.Map object
+  });
   google.maps.event.addDomListener(window, 'load', function() {
-    setInterval(watchLocation, 500);
+    setInterval(watchLocation, 1000);
   });
 }
 
@@ -133,8 +144,13 @@ function watchLocation() {
 
      
     }
-    map.setCenter(cur);
+    // map.setCenter(cur);
     currentPositionMarker.setPosition(new google.maps.LatLng(cur.lat, cur.lng))
+
+
+    $.get('getCarMetaData', function(data) {
+      currentPositionMarker2.setPosition(new google.maps.LatLng(data.response.latitude, data.response.longitude));
+    });
 
   });
   // var GeoMarker = new GeolocationMarker(map, null, null, {visible: false});
