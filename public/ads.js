@@ -85,10 +85,10 @@ class adMetadata {
 var currentLoc = { lat: 37.48809, long: -122.2251767 };
 var adMetaDataStore = [];
 
-adMetaDataStore[0] = new adMetadata(1, 37.486672, -122.228637, new creative("philz_1.jpg", "philz_2.jpg"), "QR");  //philz
+adMetaDataStore[0] = new adMetadata(1, 37.486665, -122.228640, new creative("philz_1.jpg", "philz_2.jpg"), "QR");  //philz
 adMetaDataStore[1] = new adMetadata(2, 37.486343, -122.229942, new creative("starbucks.jpg"), "navigate");
 adMetaDataStore[2] = new adMetadata(3, 37.490593, -122.227851, new creative("innout.jpeg"), "navigate");
-adMetaDataStore[3] = new adMetadata(4, 37.487876, -122.225290, new creative("amobee.jpg"), "navigate");
+adMetaDataStore[3] = new adMetadata(4, 37.486891, -122.226802, new creative("amobee.jpg"), "navigate");
 
 
 var calcDistance = function (checkPoint, centerPoint) {
