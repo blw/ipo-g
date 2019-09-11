@@ -21,27 +21,17 @@ function initMap() {
   directionsRenderer.setMap(map);
 
   initSearch();
-  currentPositionMarker = new google.maps.Marker({
-    map: map,
-    flat: true,
-    icon: {
-       path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-       strokeColor : 'red',
-       strokeWeight : 3,
-       scale: 6
-     }
-  });
-  // currentPositionMarker = new google.maps.Marker({
-  //   clickable: false,
-  //   icon: new google.maps.MarkerImage('icon.png',
-  //         new google.maps.Size(50,28),
-  //         new google.maps.Point(0,0),
-  //         new google.maps.Point(25,14)),
-  //   shadow: null,
-  //   zIndex: 999,
-  //   map // your google.maps.Map object
-  // });
 
+  currentPositionMarker = new google.maps.Marker({
+    clickable: false,
+    icon: new google.maps.MarkerImage('icon.png',
+          new google.maps.Size(50,28),
+          new google.maps.Point(0,0),
+          new google.maps.Point(25,14)),
+    shadow: null,
+    zIndex: 999,
+    map // your google.maps.Map object
+  });
   google.maps.event.addDomListener(window, 'load', function() {
     setInterval(watchLocation, 500);
   });
@@ -109,7 +99,6 @@ var previousAds = "";
         });
 function watchLocation() {
   navigator.geolocation.getCurrentPosition(function(position) {
-
     cur = {
       lat: position.coords.latitude,
       lng: position.coords.longitude
@@ -145,15 +134,7 @@ function watchLocation() {
      
     }
     map.setCenter(cur);
-
-    currentPositionMarker.setPosition(cur);
-    currentPositionMarker.setIcon({
-      path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-      strokeColor: 'red',
-      strokeWeight: 3,
-      scale: 6,
-      rotation: position.coords.heading
-    });
+    currentPositionMarker.setPosition(new google.maps.LatLng(cur.lat, cur.lng))
 
   });
   // var GeoMarker = new GeolocationMarker(map, null, null, {visible: false});
