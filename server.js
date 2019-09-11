@@ -5,7 +5,7 @@ app.use('/', express.static(__dirname + '/public'));
 
 app.listen(3000);
 
-app.get('/test', function (req, res) {
+app.get('/getCarMetaData', function (req, res) {
     let fetch = require('node-fetch');
 
     function getBrowserLocation() {
@@ -35,8 +35,10 @@ app.get('/test', function (req, res) {
             //body: JSON.stringify(data), // body data type must match "Content-Type" header
         }).then(response => response.json()); // parses JSON response into native JavaScript objects
     }
-  res.send(fetchCarMetaData());
-})
+    fetchCarMetaData().then((result) => {
+        res.send(result);
+    });
+});
 
 
 console.log("Open 127.0.0.1:3000")
