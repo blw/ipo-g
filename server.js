@@ -17,11 +17,11 @@ app.get('/getCarMetaData', function (req, res) {
         }
     }
 
-    async function fetchCarMetaData() {
+    function fetchCarMetaData() {
         return getData('https://owner-api.teslamotors.com/api/1/vehicles/71284801563121906/data_request/drive_state')
     }
 
-    async function getData(url = '') {
+    function getData(url = '') {
         // Default options are marked with *
         return fetch(url, {
             method: 'GET', // *GET, POST, PUT, DELETE, etc.
