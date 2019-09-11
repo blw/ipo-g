@@ -5,7 +5,6 @@
 // This example requires the Places library. Include the libraries=places
 // parameter when you first load the API. For example:
 // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-var svg = 'M29.395,0H17.636c-3.117,0-5.643,3.467-5.643,6.584v34.804c0,3.116,2.526,5.644,5.643,5.644h11.759c3.116,0,5.644-2.527,5.644-5.644V6.584C35.037,3.467,32.511,0,29.395,0z M34.05,14.188v11.665l-2.729,0.351v-4.806L34.05,14.188zM32.618,10.773c-1.016,3.9-2.219,8.51-2.219,8.51H16.631l-2.222-8.51C14.41,10.773,23.293,7.755,32.618,10.773z M15.741,21.713v4.492l-2.73-0.349V14.502L15.741,21.713z M13.011,37.938V27.579l2.73,0.343v8.196L13.011,37.938z M14.568,40.882l2.218-3.336h13.771l2.219,3.336H14.568z M31.321,35.805v-7.872l2.729-0.355v10.048L31.321,35.805z';
 
 var map, directionsService, directionsRenderer, cur, dest, circle;
 
@@ -26,10 +25,10 @@ function initMap() {
     map: map,
     flat: true,
     icon: {
-       path: svg,
+       path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
        strokeColor : 'red',
-       strokeWeight : 1.5,
-       scale: 0.7
+       strokeWeight : 3,
+       scale: 6
      }
   });
   // currentPositionMarker = new google.maps.Marker({
@@ -110,9 +109,7 @@ var previousAds = "";
         });
 function watchLocation() {
   navigator.geolocation.getCurrentPosition(function(position) {
-    var prev;
-    if (cur) prev = {lat: cur.lat, lng: cur.lng};
-    
+
     cur = {
       lat: position.coords.latitude,
       lng: position.coords.longitude
@@ -150,16 +147,13 @@ function watchLocation() {
     map.setCenter(cur);
 
     currentPositionMarker.setPosition(cur);
-    if (prev && (prev.lat != cur.lat || prev.lng != cur.lng)) {
-      currentPositionMarker.setIcon({
-        // path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-        path: svg,
-        strokeColor : 'red',
-        strokeWeight : 1.5,
-        scale: 0.7,
-        rotation: google.maps.geometry.spherical.computeHeading(new google.maps.LatLng(prev.lat, prev.lng), new google.maps.LatLng(cur.lat, cur.lng))
-      })
-    };
+    currentPositionMarker.setIcon({
+      path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+      strokeColor: 'red',
+      strokeWeight: 3,
+      scale: 6,
+      rotation: position.coords.heading
+    });
 
   });
   // var GeoMarker = new GeolocationMarker(map, null, null, {visible: false});
