@@ -33,16 +33,6 @@ function initMap() {
      }
   });
 
-  currentPositionMarker2 = new google.maps.Marker({
-    clickable: false,
-    icon: new google.maps.MarkerImage('qr.png',
-          new google.maps.Size(50,28),
-          new google.maps.Point(0,0),
-          new google.maps.Point(25,14)),
-    shadow: null,
-    zIndex: 999,
-    map // your google.maps.Map object
-  });
   google.maps.event.addDomListener(window, 'load', function() {
     setInterval(watchLocation, 1000);
   });
@@ -109,17 +99,16 @@ var previousAds = "";
           // Animation complete.
         });
 function watchLocation() {
-  navigator.geolocation.getCurrentPosition(function(position) {
-    var prev;
-    if (cur) prev = {lat: cur.lat, lng: cur.lng};
+  $.get('getCarMetaData', function(data) {
+    var response = data.response;
     
     cur = {
-      lat: position.coords.latitude,
-      lng: position.coords.longitude
+      lat: response.latitude,
+      lng: response.longitude
     };
     var adsCur = {
-      lat: position.coords.latitude,
-      long: position.coords.longitude
+      lat: response.latitude,
+      long: response.longitude
     }
     previousAds = adsToShow;
     let ads = returnAd(adsCur);
@@ -144,27 +133,16 @@ function watchLocation() {
 
     }
     console.log(adsToShow);
-    if (adsToShow != '') {
+    
 
-     
-    }
-
-    $.get('getCarMetaData', function(data) {
-      map.setCenter({lat: data.response.latitude, long: data.response.longitude});
-      currentPositionMarker2.setPosition(new google.maps.LatLng(data.response.latitude, data.response.longitude));
-    });
-
-    currentPositionMarker.setPosition(cur);
-    if (prev && (prev.lat != cur.lat || prev.lng != cur.lng)) {
-      currentPositionMarker.setIcon({
-        // path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-        path: svg,
-        strokeColor : 'red',
-        strokeWeight : 1.5,
-        scale: 0.7,
-        rotation: google.maps.geometry.spherical.computeHeading(new google.maps.LatLng(prev.lat, prev.lng), new google.maps.LatLng(cur.lat, cur.lng))
-      })
-    };
+    currentPositionMarker.setPosition(new google.maps.LatLng(cur.lat, cur.lng));
+    currentPositionMarker.setIcon({
+      path: svg,
+      strokeColor : 'red',
+      strokeWeight : 1.5,
+      scale: 0.7,
+      rotation: response.heading
+    })
 
   });
   // var GeoMarker = new GeolocationMarker(map, null, null, {visible: false});
