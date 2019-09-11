@@ -3,11 +3,17 @@ var fs = require('fs');
 var https = require('https');
 var app = express();
 
+var lastPosition = -1;
+var timestamp = -1;
 app.use('/', express.static(__dirname + '/public'));
 
 // app.listen(3000);
 
 app.get('/getCarMetaData', function (req, res) {
+    if(new Date() - timestamp < 1000) {
+        return lastPosition;
+    }
+
     let fetch = require('node-fetch');
     function getBrowserLocation() {
         if(navigator.geolocation) {
@@ -41,6 +47,8 @@ app.get('/getCarMetaData', function (req, res) {
         }); // parses JSON response into native JavaScript objects
     }
     fetchCarMetaData().then((result) => {
+        lastPosition = result;
+        timestamp = new Date();
         res.send(result);
     });
 });
