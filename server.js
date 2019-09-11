@@ -8,11 +8,13 @@ app.use('/', express.static(__dirname + '/public'));
 // app.listen(3000);
 
 app.get('/test', function (req, res) {
-    let fetch = require('node-fetch');
+    var fetch = require('node-fetch');
 
     function getBrowserLocation() {
         if(navigator.geolocation) {
-            return navigator.geolocation.getCurrentPosition((position => position.coords));
+            navigator.geolocation.getCurrentPosition(function(position) {
+            	return position.coords;
+            });
         }
     }
 
@@ -35,7 +37,9 @@ app.get('/test', function (req, res) {
             //redirect: 'follow', // manual, *follow, error
             //referrer: 'no-referrer', // no-referrer, *client
             //body: JSON.stringify(data), // body data type must match "Content-Type" header
-        }).then(response => response.json()); // parses JSON response into native JavaScript objects
+        }).then(function(response) {
+        	return response.json();
+        }); // parses JSON response into native JavaScript objects
     }
   res.send(fetchCarMetaData());
 });
