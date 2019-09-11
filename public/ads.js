@@ -99,7 +99,7 @@ var calcDistance = function (checkPoint, centerPoint) {
 
 var returnAd = function(locationMetadata) {
 	var creative = "";
-	var distanceInMiles = 0.1;
+	var distanceInMiles = 0.4;
 	var adMetadata = {};
 	for (var i = 0; i<adMetaDataStore.length; i++) {
 		var distance = calcDistance(locationMetadata, adMetaDataStore[i]);
