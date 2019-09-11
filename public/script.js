@@ -102,7 +102,11 @@ function initSearch() {
   calculateAndDisplayRoute(directionsService, directionsRenderer);
   });
 }
-
+var adsToShow = "";
+var previousAds = "";
+        $('#ad').slideToggle( "slow", function() {
+          // Animation complete.
+        });
 function watchLocation() {
   navigator.geolocation.getCurrentPosition(function(position) {
 
@@ -114,10 +118,23 @@ function watchLocation() {
       lat: position.coords.latitude,
       long: position.coords.longitude
     }
-    var adsToShow = returnAd(adsCur);
+    previousAds = adsToShow;
+    adsToShow = returnAd(adsCur);
+    console.log(previousAds);
     console.log(adsToShow);
     if (adsToShow != '') {
       $('#adImg').attr('src', adsToShow);
+    }
+    if ((previousAds == '' && adsToShow != '') || (previousAds != '' && adsToShow == '')) {
+        
+        $('#ad').toggle("slide", {direction:'right'});
+
+
+    }
+    console.log(adsToShow);
+    if (adsToShow != '') {
+
+     
     }
     map.setCenter(cur);
 
