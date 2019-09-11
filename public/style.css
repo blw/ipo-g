@@ -82,7 +82,7 @@ html, body {
 
 #ad {
     height: 100%;
-    width: 450px;
+    width: 600px;
     position: absolute;
     top: 0px;
     right: 0px;
@@ -90,5 +90,5 @@ html, body {
 }
 
 #adImg {
-    width: 450px;
+    width: 600px;
 }
