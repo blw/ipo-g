@@ -22,7 +22,8 @@ function initMap() {
 
   initSearch();
 
-  google.maps.event.addDomListener(window, 'load', initCurrentLocation);
+  google.maps.event.addDomListener(window, 'load', watchLocation);
+
 
 }
 
@@ -82,8 +83,8 @@ function initSearch() {
   });
 }
 
-function initCurrentLocation() {
-  navigator.geolocation.getCurrentPosition(function(position) {
+function watchLocation() {
+  navigator.geolocation.watchPosition(function(position) {
     cur = {
       lat: position.coords.latitude,
       lng: position.coords.longitude
@@ -92,11 +93,10 @@ function initCurrentLocation() {
     map.setCenter(cur);
   });
 
-  var GeoMarker = new GeolocationMarker(map);
+  var GeoMarker = new GeolocationMarker(map, null, null, {visible: false});
 }
 
 function calculateAndDisplayRoute(directionsService, directionsRenderer) {
-  initCurrentLocation();
   directionsService.route(
       {
         origin: new google.maps.LatLng(cur.lat, cur.lng),
