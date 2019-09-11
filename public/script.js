@@ -84,7 +84,7 @@ function initSearch() {
 }
 
 function watchLocation() {
-  navigator.geolocation.watchPosition(function(position) {
+  navigator.geolocation.getCurrentPosition(function(position) {
     cur = {
       lat: position.coords.latitude,
       lng: position.coords.longitude
