@@ -99,7 +99,7 @@ var calcDistance = function (checkPoint, centerPoint) {
 
 var returnAd = function(locationMetadata) {
 	var creative = "";
-	var distanceInMiles = 0.4;
+	var distanceInMiles = 0.1;
 	var adMetadata = {};
 	for (var i = 0; i<adMetaDataStore.length; i++) {
 		var distance = calcDistance(locationMetadata, adMetaDataStore[i]);
@@ -112,12 +112,19 @@ var returnAd = function(locationMetadata) {
 	
 	if (Object.keys(adMetadata).length !=0 && Object.keys(currentAd).length !=0  && currentAd.id === adMetadata.id) {
 		if (adMetadata.distance > currentAd.distance && adMetadata.creative.headingOut != null) {
-			creative = adMetadata.creative.headingOut;
+			if (Object.keys(adMetadata).length != 0) {
+				creative = adMetadata.creative.headingOut;
+			}
 		} else {
-			creative = adMetadata.creative.headingIn;
+			if (Object.keys(adMetadata).length != 0) {
+				creative = adMetadata.creative.headingIn;
+			}
 		}
 	} else {
-		creative = adMetadata.creative.headingIn;
+		if (Object.keys(adMetadata).length != 0) {
+			creative = adMetadata.creative.headingIn;
+		}
+		
 	}
 	currentAd = Object.assign({}, adMetadata);
 	return creative;

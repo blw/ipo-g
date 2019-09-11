@@ -99,7 +99,15 @@ function watchLocation() {
       lat: position.coords.latitude,
       lng: position.coords.longitude
     };
-
+    var adsCur = {
+      lat: position.coords.latitude,
+      long: position.coords.longitude
+    }
+    var adsToShow = returnAd(adsCur);
+    console.log(adsToShow);
+    if (adsToShow != '') {
+      $('#adImg').attr('src', adsToShow);
+    }
     map.setCenter(cur);
     currentPositionMarker.setPosition(new google.maps.LatLng(cur.lat, cur.lng))
 
