@@ -1,9 +1,11 @@
 var express = require('express');
+var fs = require('fs');
+var https = require('https');
 var app = express();
 
 app.use('/', express.static(__dirname + '/public'));
 
-app.listen(3000);
+// app.listen(3000);
 
 app.get('/test', function (req, res) {
     let fetch = require('node-fetch');
@@ -36,7 +38,13 @@ app.get('/test', function (req, res) {
         }).then(response => response.json()); // parses JSON response into native JavaScript objects
     }
   res.send(fetchCarMetaData());
+});
+
+
+https.createServer({
+  key: fs.readFileSync('server.key'),
+  cert: fs.readFileSync('server.cert')
+}, app)
+.listen(3000, function () {
+  console.log('https://localhost:3000/')
 })
-
-
-console.log("Open 127.0.0.1:3000")
