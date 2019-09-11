@@ -24,16 +24,16 @@ function initMap() {
 
   currentPositionMarker = new google.maps.Marker({
     clickable: false,
-    icon: new google.maps.MarkerImage('//static.thenounproject.com/png/1023856-200.png',
-                                                    new google.maps.Size(200,200),
-                                                    new google.maps.Point(0,0),
-                                                    new google.maps.Point(100,100)),
+    icon: new google.maps.MarkerImage('icon.png',
+          new google.maps.Size(50,28),
+          new google.maps.Point(0,0),
+          new google.maps.Point(25,14)),
     shadow: null,
     zIndex: 999,
     map // your google.maps.Map object
   });
   google.maps.event.addDomListener(window, 'load', function() {
-    setInterval(watchLocation, 1000)
+    setInterval(watchLocation, 200);
   });
 }
 
