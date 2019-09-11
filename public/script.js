@@ -156,7 +156,7 @@ function handleClick(ads) {
       dest = new google.maps.Marker({
         map: map,
         icon: icon,
-        position: new google.maps.LatLng(ads.lat, ads.long)
+        position: new google.maps.LatLng(37.487876, -122.225290) // go to amobee
       });
       calculateAndDisplayRoute(directionsService, directionsRenderer);
       $('#ad').toggle("slide", {direction:'right'});
