@@ -1,16 +1,19 @@
 var express = require('express');
+var fs = require('fs');
+var https = require('https');
 var app = express();
 
 app.use('/', express.static(__dirname + '/public'));
 
-app.listen(3000);
+// app.listen(3000);
 
 app.get('/getCarMetaData', function (req, res) {
     let fetch = require('node-fetch');
-
     function getBrowserLocation() {
         if(navigator.geolocation) {
-            return navigator.geolocation.getCurrentPosition((position => position.coords));
+            navigator.geolocation.getCurrentPosition(function(position) {
+            	return position.coords;
+            });
         }
     }
 
@@ -33,7 +36,9 @@ app.get('/getCarMetaData', function (req, res) {
             //redirect: 'follow', // manual, *follow, error
             //referrer: 'no-referrer', // no-referrer, *client
             //body: JSON.stringify(data), // body data type must match "Content-Type" header
-        }).then(response => response.json()); // parses JSON response into native JavaScript objects
+        }).then(function(response) {
+        	return response.json();
+        }); // parses JSON response into native JavaScript objects
     }
     fetchCarMetaData().then((result) => {
         res.send(result);
@@ -41,4 +46,10 @@ app.get('/getCarMetaData', function (req, res) {
 });
 
 
-console.log("Open 127.0.0.1:3000")
+https.createServer({
+  key: fs.readFileSync('server.key'),
+  cert: fs.readFileSync('server.cert')
+}, app)
+.listen(3000, function () {
+  console.log('https://localhost:3000/')
+})
